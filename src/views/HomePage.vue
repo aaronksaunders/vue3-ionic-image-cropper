@@ -9,8 +9,9 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true">
-      <input type="file" name="file" v-on:change="fileChange($event.target.files)" />
+    <ion-content :fullscreen="true" class="ion-padding">
+      <ion-button @click="fileBtn?.click()">GET IMAGE</ion-button>
+      <input style="display:none" type="file" name="file" v-on:change="fileChange($event.target.files)" ref="fileBtn" />
       <div v-if="src">
         <ImageCropper :srcImg="src" />
       </div>
@@ -44,6 +45,9 @@ export default defineComponent({
     const selectedFile = ref<any>();
     const src = ref<any>();
 
+    const cropper = ref(null);
+    const fileBtn = ref(null);
+
     const fileChange = (fileList: any) => {
       selectedFile.value = fileList[0];
       if (src.value) window.URL.revokeObjectURL(src.value);
@@ -56,6 +60,8 @@ export default defineComponent({
       src,
       selectedFile,
       router: useRouter(),
+      cropper,
+      fileBtn,
     };
   },
 });
